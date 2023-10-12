@@ -1,0 +1,32 @@
+server:
+  port: 8504
+spring:
+  cloud:
+    function:
+      definition: upper;ending;process
+    stream:
+      bindings:
+        numberProducer-out-0:
+          destination: input-topic
+        upper-in-0:
+          destination: input-topic
+        upper-out-0:
+          destination: output-topic
+        ending-in-0:
+          destination: input-topic
+        ending-out-0:
+          destination: output-topic
+        process-in-0:
+          destination: input-topic
+        process-out-0:
+          destination: output-topic
+
+      kafka:
+        binder:
+          brokers: localhost:9092
+          configuration:
+            commit.interval.ms: 100
+            schema.registry.url: http://localhost:8081
+            default:
+              key.serde: org.apache.kafka.common.serialization.Serdes$StringSerde
+              value.serde: org.apache.kafka.common.serialization.Serdes$StringSerde
