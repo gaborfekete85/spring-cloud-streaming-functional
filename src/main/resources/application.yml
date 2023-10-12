@@ -3,7 +3,7 @@ server:
 spring:
   cloud:
     function:
-      definition: upper;ending;process
+      definition: transform;upper;ending;process;dlq
     stream:
       bindings:
         numberProducer-out-0:
@@ -11,6 +11,13 @@ spring:
         upper-in-0:
           destination: input-topic
         upper-out-0:
+          destination: output-topic
+        transform-in-0:
+          destination: input-topic
+          group: wordGroup
+          consumer:
+            auto-bind-dlq: true
+        transform-out-0:
           destination: output-topic
         ending-in-0:
           destination: input-topic
@@ -20,7 +27,8 @@ spring:
           destination: input-topic
         process-out-0:
           destination: output-topic
-
+        dlq-out-0:
+          destination: error-input-topic
       kafka:
         binder:
           brokers: localhost:9092
